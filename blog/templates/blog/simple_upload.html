@@ -6,14 +6,18 @@
   <head>
     <meta charset="utf-8">
     <title>Simple File Upload</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
   </head>
-  <body>
+  <body style="background-color: cyan">
+  <div class = "container">
+    <form method="post" enctype="multipart/form-data"  style="color:purple;font-size:20px; margin:10%">
+      {% csrf_token %}
+      <input type="file" name="myfile">
+      <button type="submit" style="margin: 10px">Upload</button>
+    </form>
+  </div>
 
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="myfile">
-    <button type="submit">Upload</button>
-  </form>
 
 
   </body>

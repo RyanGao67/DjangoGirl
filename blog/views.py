@@ -16,8 +16,7 @@ def openfile(filename, data):
         return "Not a program file!"
     data = data.split('\n')
     data = [i.strip() for i in data]
-    for i in data:
-        print(i)
+
     if not filename.endswith('.py'):
         return checkC(data)
     else:

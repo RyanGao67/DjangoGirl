@@ -162,9 +162,7 @@ def simple_upload(request):
         result = openfile(myfile.name, result)
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
-        print(result)
-        for i in result:
-            print(i)
+
         return render(request, 'blog/result.html', {
             'uploaded_file_url': result
         })

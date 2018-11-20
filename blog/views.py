@@ -4,8 +4,8 @@ from django.core.files.storage import FileSystemStorage
 
 
 import os
-    
-    
+
+
 import re
 import math
 # within = re.compile(r'\"\")
@@ -21,9 +21,9 @@ def openfile(filename, data):
         return checkC(data)
     else:
         return checkP(data)
-        
-        
-        
+
+
+
 def checkC(data):
     lines = len(data)
     marker = []
@@ -32,11 +32,11 @@ def checkC(data):
     comments_multiple = 0
     comments_single = 0
     blocks = 0
-    todos = 0    
+    todos = 0
     for i in range(len(data)):
         # The current line
-        
-        temp = data[i] 
+
+        temp = data[i]
         temp = re.sub(r"\".*?\"", " ", temp)
 
         if 'TODO' in temp:
@@ -45,23 +45,23 @@ def checkC(data):
         c1 = re.finditer(r'\/\/', temp)
         c2 = re.finditer(r'\/\*', temp)
         c3 = re.finditer(r'\*\/', temp)
-        
+
         try:
             c1 = next(c1).start()
         except StopIteration:
             c1 = math.inf
-            
+
         try:
             c2 = next(c2).start()
         except StopIteration:
             c2 = math.inf
-            
+
         try:
             c3 = next(c3).start()
         except StopIteration:
             c3 = math.inf
 
-        
+
         if marker:
             if c3<math.inf:
                 marker.pop()
@@ -87,13 +87,14 @@ def checkC(data):
                 comments_total+=1
                 comments_multiple+=1
                 blocks+=1
-                
+
     return  'Number of total lines: '+str(lines),\
     'Number of lines of all comments: '+str(comments_total),\
     "Number of lines of multiple-line comments: "+ str(comments_multiple),\
     "Number of lines of single-line comments: " + str(comments_single) ,\
     "Number of blocks of multiple-line comments: "+ str(blocks) ,\
-    "Number of TODOs: " + str(todos)
+    "Number of TODOs: " + str(todos) ,\
+    "Comment coverage:" + str(comments_total/lines)
 
 def checkP(data):
     marker = 0
@@ -103,7 +104,7 @@ def checkP(data):
     comments_multiple = 0
     comments_single = 0
     blocks = 0
-    todos = 0  
+    todos = 0
     data = '\n'.join(data)
     data = re.sub(r"\"\"\"", "^^^", data)
     data = re.sub(r"\'\'\'", "$$$", data)
@@ -115,28 +116,28 @@ def checkP(data):
     data  = data.split('\n')
     for i in range(len(data)):
         # The current line
-        
-        temp = data[i] 
+
+        temp = data[i]
 
         if "TODO" in temp:
             todos+=1
         if temp.startswith('#'):
             comments_total+=1
             marker += 1
-            
+
         elif  marker>1:
             blocks+=1
             comments_multiple+=marker
             marker=0
-            
+
         elif  marker==1:
             comments_single += marker
             marker=0
-            
+
         elif "#" in temp:
             comments_total+=1
             comments_single+=1
-    
+
     if marker==1:
         comments_single+=1
     if marker>1:
@@ -149,7 +150,8 @@ def checkP(data):
     "Number of lines of multiple-line comments: "+ str(comments_multiple),\
     "Number of lines of single-line comments: " + str(comments_single) ,\
     "Number of blocks of multiple-line comments: "+ str(blocks) ,\
-    "Number of TODOs: " 
+    "Number of TODOs: " ,\
+    "Comment coverage:" + str(comments_total/lines)
 
 
 def simple_upload(request):
@@ -166,4 +168,3 @@ def simple_upload(request):
             'uploaded_file_url': result
         })
     return render(request, 'blog/simple_upload.html')
-    

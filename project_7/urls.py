@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 
+# For any full URL path containing the root URL of the web app,
+# redirect everything to blog.urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),

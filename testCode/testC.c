@@ -15,7 +15,8 @@ int func(int n){
 		sum+=i;
 	return sum;
 }
-//    TODO todo
+// TODO todo
+// Another todo hahaha
 int main(){
 	int a=1, b=3;
 	int c=a+b;/***adlafla

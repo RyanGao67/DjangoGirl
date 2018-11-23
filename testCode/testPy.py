@@ -136,6 +136,7 @@ def find_min(funObj, w, maxEvals, verbose, *args):
         g = g_new
 
         # Test termination conditions
+        #
         optCond = norm(g, float('inf'))
 
         if optCond < optTol:
